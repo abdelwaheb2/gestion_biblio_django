@@ -1,0 +1,31 @@
+{% extends  'index.html' %}
+
+{% block body %}
+<form class=" px-5 bg-light bg-gradient py-4 form-control w-50 mx-auto" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <label for="book">Books : </label>
+    <select class="form-select mb-3" name="book">
+        <option  value="0">Choix book</option>
+        {% for i in books %}
+        {% if i.id != borrowing.book_id.id %}
+        <option value="{{i.id}}">{{i.title}}</option>
+        {% else %}
+        <option selected value="{{i.id}}">{{i.title}}</option>
+        {% endif %}
+        {%endfor%}
+    </select>
+    <label for="student">Students : </label>
+    <select class="form-select mb-4" name="student">
+        <option selected value="0">Choix student</option>
+        {% for i in students %}
+        {% if i.id != borrowing.student_id.id %}
+        <option value="{{i.id}}">{{i.name}} {{i.surname}}</option>
+        {% else %}
+        <option selected value="{{i.id}}">{{i.name}} {{i.surname}}</option>
+        {% endif %}
+        {%endfor%}
+    </select>
+    <button type="submit" class="btn btn-primary">edit</button>
+</form>
+{% endblock %}

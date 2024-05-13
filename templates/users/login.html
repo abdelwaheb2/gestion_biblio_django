@@ -1,0 +1,24 @@
+{% extends  'index.html' %}
+
+{% block body %}
+<form class=" px-5 bg-light bg-gradient py-4 form-control w-50 mx-auto" method="post">
+    {% csrf_token %}
+    <label for="username">Username</label>
+    <input class="form-control" type="text" id="username" required name="username">
+    <br>
+    <label for="password">Password</label>
+    <input class="form-control" type="password" id="password" required name="password">
+    <a href=" {% url 'reset-password' %} "><p class="text-end">Forgot password?</p></a>
+    {% for m in messages %}
+        <div class="mt-2 text-center fw-bold">
+            {% if 'error' in m.tags %}
+                <span class="text-danger">{{ m }}</span>
+            {% elif 'info' in m.tags %}
+                <span class="text-warning">{{ m|safe }}</span>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    <button class="btn mt-2 btn-primary w-100" type="submit">Login</button>
+</form>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+
+{% block body %}
+<style>
+    i {
+        cursor: pointer;
+    }
+    ul{
+        list-style: none;
+    }
+    li{
+        color: rgb(98, 108, 118);
+        font-weight: 600;
+    }
+</style>
+<form class="px-5 bg-light bg-gradient py-4 form-control w-50 mx-auto" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-flex align-items-center gap-2">
+        <select  name="author" id="author" class="form-select">
+            <option value="0">Select author</option>
+            {% for i in authors %}
+                <option value="{{i.id}}" id="{{i.id}}">{{ i.name }} {{ i.surname }}</option>
+            {% endfor %}
+        </select>
+        <div data-text="add" class="title"><i class="bi bi-plus-circle-fill fs-2" onclick="add()"></i></div>
+    </div>
+    <input type="hidden" id="authors" name="authors">
+    <button type="submit" class="btn mt-3 btn-primary">Save</button>
+    <hr>
+    <h3 class="text-secondary fw-bold" >Authors : </h3>
+    <ul id="liste"></ul>
+</form>
+<script>
+    let hidden = document.getElementById('authors');
+    let select = document.getElementById('author');
+    let liste = document.getElementById('liste');
+
+    const add = () => {
+        let option = select.value;
+        let li = document.createElement('li');
+        selected=document.getElementById(option)
+        li.textContent = selected.textContent;
+        select.removeChild(selected)
+        liste.appendChild(li);
+        hidden.value = hidden.value+',' + option;
+    };
+</script>
+{% endblock %}

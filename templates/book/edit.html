@@ -1,0 +1,70 @@
+{% extends  'index.html' %}
+
+{% block body %}
+<style>
+    i {
+        cursor: pointer;
+    }
+    ul{
+        list-style: none;
+    }
+    li{
+        color: rgb(98, 108, 118);
+        font-weight: 600;
+    }
+</style>
+<form class=" px-5 bg-light bg-gradient py-4 form-control w-50 mx-auto" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="d-flex align-items-center gap-2">
+        <select name="author" id="author" class="form-select">
+            <option value="0">Choix new author</option>
+            {% for i in authors %}
+                <option id="{{ i.id }}" value="{{ i.id }}">{{i.name}} {{i.surname}} </option>
+            {% endfor%}
+        </select>
+        <div data-text="add" class="title"><i class="bi bi-plus-circle-fill fs-2" onclick="add()"></i></div>
+    </div>
+    <input type="text" id="authors" name="authors">
+    <button type="submit" class="btn btn-primary mt-3">edit</button>
+    <hr>
+    <h3 class="text-secondary fw-bold" >Authors : </h3>
+    <ul id="liste">
+        {% for i in authours_c %}
+            <li id="{{i.author_id.id}}" class="d-flex justify-content-between py-1"> 
+                <div>{{i.author_id.name}} {{i.author_id.surname}}</div>
+                <div data-text="delete" class="title"><i class="bi bi-trash3-fill text-danger fs-5"></i></div>
+            </li>
+        {%endfor%}
+    </ul>
+</form>
+<script>
+    var hidden = document.getElementById('authors');
+    var select = document.getElementById('author');
+    var liste = document.getElementById('liste');
+    for (let i = 0; i < liste.childElementCount; i++) {
+        const id = liste.children[i].getAttribute('id');
+        hidden.value = hidden.value+',' + id;
+        
+    }
+    
+    const add = () => {
+        let option = select.value;
+        let li = document.createElement('li');
+        let div1 = document.createElement('li');
+        let div2 = document.createElement('li');
+        selected=document.getElementById(option)
+
+        li.setAttribute('class','d-flex justify-content-between py-1')
+        div1.textContent = selected.textContent;
+        div2.classList.add('title')
+        div2.setAttribute('data-text','delete')
+        div2.innerHTML='<i class="bi bi-trash3-fill text-danger fs-5"></i>'
+        li.appendChild(div1)
+        li.appendChild(div2)
+        select.removeChild(selected)
+        liste.appendChild(li);
+        hidden.value = hidden.value+',' + option;
+    };
+</script>
+{% endblock %}

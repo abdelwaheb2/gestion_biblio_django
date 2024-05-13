@@ -1,0 +1,19 @@
+{% extends  'index.html' %}
+
+{% block body %}
+<head>
+    <style>
+        input[name="password"],input[name="username"]{
+            background-color: #ebebeb;
+            border: 1px solid rgb(203, 202, 202);
+            resize: none;
+            pointer-events: none; 
+        }
+    </style>
+</head>
+<form class=" px-5 bg-light bg-gradient py-4 form-control w-50 mx-auto" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">edit</button>
+</form>
+{% endblock %}

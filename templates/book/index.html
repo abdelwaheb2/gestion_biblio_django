@@ -1,0 +1,40 @@
+{% extends  'index.html' %}
+
+{% block body %}
+<div class="w-100 mb-3 d-flex justify-content-between">
+  <form class="input-group w-50" method="get">
+    <input type="text" value="{{search}}" name="search" style="box-shadow: none;" class="form-control" placeholder="Search..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <button type="submit" class="btn btn-outline-success" id="basic-addon2">Search</button>
+</form>
+    <a class="btn btn-outline-primary" href="{% url 'new_book' %}">new book</a>
+</div>
+<table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Title</th>
+        <th scope="col">Authors</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        {% for i in books %}
+      <tr>
+        <th scope="row">{{i.id}}</th>
+        <td>{{i.title}}</td>
+        <td>
+          <select class="form-select" size="2" aria-label="Size 3 select example">
+            {% for a in i.authors %}
+            <option value="1"> {{a.author_id.name}} {{a.author_id.surname}} </option>
+            {% endfor %}
+          </select>
+        </td>
+        <td>
+            <a class="text-danger me-5" onclick="return confirm('vous etez sur  de supremer')" href="{% url 'delete_book' i.id %}"><i class="bi bi-trash3-fill"></i> Delete</a>
+            <a class="text-warning" href="{% url 'edit_book' i.id %}"><i class="bi bi-pencil-square"></i> Edit</a>
+        </td>
+      </tr>
+      {%endfor%}
+    </tbody>
+  </table>
+{% endblock %}
